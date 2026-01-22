@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_inicio"
+        android:icon="@drawable/ic_home"
+        android:title="Inicio" />
+
+    <item
+        android:id="@+id/nav_registrar"
+        android:icon="@drawable/ic_add"
+        android:title="Registrar" />
+
+    <item
+        android:id="@+id/nav_clientes"
+        android:icon="@drawable/ic_clients"
+        android:title="Clientes" />
+
+    <item
+        android:id="@+id/nav_envios"
+        android:icon="@drawable/ic_shipping"
+        android:title="Envíos" />
+
+</menu>
