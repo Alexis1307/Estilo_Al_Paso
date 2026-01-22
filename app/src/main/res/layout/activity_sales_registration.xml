@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/btn_revert"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@android:drawable/ic_menu_revert"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/black"/>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registrar Venta"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/textlimpiar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Limpiar"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/blue_iron"
+            app:layout_constraintBaseline_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/lblCliente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="CLIENTE"
+            android:textColor="@color/gris_oscuro"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+        <EditText
+            android:id="@+id/edtclientes"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_input_light"
+            android:hint="Buscar Cliente"
+            android:textSize="15sp"
+            android:paddingStart="10dp"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:drawablePadding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblCliente"/>
+        <TextView
+            android:id="@+id/lbltambien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="O TAMBIÉN"
+            android:textColor="#7E7B7B"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtclientes" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNuevoCliente"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="12dp"
+            android:text="Crear nuevo cliente"
+            android:textSize="13sp"
+            android:textColor="@color/blue_iron"
+            app:icon="@android:drawable/ic_input_add"
+            app:iconTint="@color/blue_iron"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbltambien"
+            app:strokeColor="@color/blue_iron"
+            app:cornerRadius="12dp" />
+        <TextView
+            android:id="@+id/lbldetallesprenda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="33dp"
+            android:text="DETALLES DE PRENDA"
+            android:textColor="#080D18"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnNuevoCliente" />
+        <EditText
+            android:id="@+id/etPrecio"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_input_light"
+            android:hint="Precio de Venta (S/)"
+            android:inputType="numberDecimal"
+            android:paddingStart="15dp"
+            android:textColor="@color/dorado"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbldetallesprenda" />
+
+
+
+        <EditText
+            android:id="@+id/etDescripcion"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_input_light"
+            android:gravity="top"
+            android:hint="Ej. Sudadera Oversize Algodón - Talla L"
+            android:padding="15dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etPrecio" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardResumen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardBackgroundColor="#F8F9FA"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#E0E0E0"
+            app:strokeWidth="1dp"
+            app:layout_constraintTop_toBottomOf="@id/etDescripcion"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Resumen de Registro"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="16dp" />
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2">
+
+                    <TextView android:text="CLIENTE" android:textSize="10sp" android:layout_columnWeight="1" />
+                    <TextView android:text="PRENDAS" android:textSize="10sp" android:layout_columnWeight="1" android:gravity="end" />
+
+                    <TextView android:id="@+id/tvResumenCliente" android:text="Seleccionar..." android:textStyle="bold" android:textColor="@color/black" android:layout_marginBottom="16dp" android:layout_columnWeight="1" />
+                    <TextView android:id="@+id/tvResumenPrendas" android:text="1 unidad" android:textStyle="bold" android:textColor="@color/black" android:gravity="end" android:layout_columnWeight="1" />
+
+                    <TextView android:text="TOTAL" android:textSize="10sp" android:layout_columnWeight="1" />
+                    <TextView android:text="PENDIENTE" android:textSize="10sp" android:layout_columnWeight="1" android:gravity="end" />
+
+                    <TextView android:id="@+id/tvTotal" android:text="S/0.00" android:textSize="22sp" android:textStyle="bold" android:textColor="@color/blue_iron" android:layout_columnWeight="1" />
+                    <TextView android:id="@+id/tvPendiente" android:text="S/0.00" android:textSize="22sp" android:textStyle="bold" android:textColor="#E57373" android:layout_columnWeight="1" android:gravity="end" />
+                </GridLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmar"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:text="CONFIRMAR VENTA"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:backgroundTint="@color/dorado"
+            app:cornerRadius="30dp"
+            app:layout_constraintTop_toBottomOf="@id/cardResumen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+</ScrollView>
