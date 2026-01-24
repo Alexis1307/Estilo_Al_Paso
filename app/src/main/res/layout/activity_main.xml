@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#121A1F">
+    android:background="#FFFFFF">
 
     <!-- ================= CONTENIDO SCROLL ================= -->
     <androidx.core.widget.NestedScrollView
@@ -43,7 +43,7 @@
                         android:layout_height="wrap_content"
                         android:text="Bienvenido de nuevo"
                         android:textSize="12sp"
-                        android:textColor="#9AA0A6" />
+                        android:textColor="#000000" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -51,14 +51,14 @@
                         android:text="Inicio"
                         android:textSize="22sp"
                         android:textStyle="bold"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#000000" />
                 </LinearLayout>
 
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:src="@android:drawable/stat_notify_chat"
-                    app:tint="#FFFFFF" />
+                    app:tint="#000000" />
 
             </LinearLayout>
 
@@ -76,7 +76,7 @@
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
                     app:cardCornerRadius="16dp"
-                    app:cardBackgroundColor="#1E2A32">
+                    app:cardBackgroundColor="#DBD6CE">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -89,7 +89,7 @@
                             android:layout_height="wrap_content"
                             android:text="PAQUETES ACTIVOS"
                             android:textSize="12sp"
-                            android:textColor="#9AA0A6" />
+                            android:textColor="#FF8F00" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
                             android:text="12"
                             android:textSize="26sp"
                             android:textStyle="bold"
-                            android:textColor="#FFFFFF" />
+                            android:textColor="#000000" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:cardCornerRadius="16dp"
-                    app:cardBackgroundColor="#1E2A32">
+                    app:cardBackgroundColor="#DBD6CE">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -127,7 +127,7 @@
                             android:layout_height="wrap_content"
                             android:text="PRENDAS VENDIDAS"
                             android:textSize="12sp"
-                            android:textColor="#9AA0A6" />
+                            android:textColor="#FF8F00" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -135,7 +135,7 @@
                             android:text="45"
                             android:textSize="26sp"
                             android:textStyle="bold"
-                            android:textColor="#FFFFFF" />
+                            android:textColor="#000000" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -160,7 +160,7 @@
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
                     app:cardCornerRadius="16dp"
-                    app:cardBackgroundColor="#1E2A32">
+                    app:cardBackgroundColor="#DBD6CE">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -171,7 +171,7 @@
                         <TextView
                             android:text="MONTO TOTAL"
                             android:textSize="12sp"
-                            android:textColor="#9AA0A6"
+                            android:textColor="#FF8F00"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
@@ -179,7 +179,7 @@
                             android:text="S/.1,250.00"
                             android:textSize="26sp"
                             android:textStyle="bold"
-                            android:textColor="#FFFFFF"
+                            android:textColor="#4CAF50"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -190,7 +190,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:cardCornerRadius="16dp"
-                    app:cardBackgroundColor="#1E2A32">
+                    app:cardBackgroundColor="#DBD6CE">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -201,7 +201,7 @@
                         <TextView
                             android:text="MONTO PENDIENTE"
                             android:textSize="12sp"
-                            android:textColor="#9AA0A6"
+                            android:textColor="#FF8F00"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
@@ -209,7 +209,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="S/.320.00"
-                            android:textColor="#FF7043"
+                            android:textColor="#DB4B4B"
                             android:textSize="26sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -223,14 +223,14 @@
                 android:text="Paquetes activos"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:layout_marginTop="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ver más"
-                android:textColor="#4CAF50"
+                android:textColor="#03A9F4"
                 android:layout_gravity="end"
                 android:layout_marginBottom="8dp" />
 
@@ -238,7 +238,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="16dp"
-                app:cardBackgroundColor="#1E2A32">
+                app:cardBackgroundColor="#DBD6CE">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -251,29 +251,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Lucía Fernández  •  Pedido #3041  •  2 prendas"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
                         android:text="PAGADO"
                         android:textColor="#4CAF50"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="8dp" />
+                        android:textStyle="bold" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#2C3A42"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="8dp"
+                        android:background="#2C3A42" />
 
                     <!-- Item -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Carlos Ruiz  •  Pedido #3042  •  1 prenda"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="14sp" />
 
                     <TextView
@@ -293,14 +293,14 @@
                 android:text="Pendientes de pago"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:layout_marginTop="24dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ver todos"
-                android:textColor="#4CAF50"
+                android:textColor="#03A9F4"
                 android:layout_gravity="end"
                 android:layout_marginBottom="8dp" />
 
@@ -308,7 +308,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="16dp"
-                app:cardBackgroundColor="#1E2A32">
+                app:cardBackgroundColor="#DBD6CE">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -320,13 +320,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Roberto Sánchez  •  Último aviso hace 2 días"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#000000" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="S/.85.00"
-                        android:textColor="#FF7043"
+                        android:textColor="#DB4B4B"
                         android:textStyle="bold"
                         android:layout_marginBottom="8dp" />
 
@@ -340,13 +340,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Elena Martínez  •  Vence mañana"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#000000" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="S/.120.50"
-                        android:textColor="#FF7043"
+                        android:textColor="#DB4B4B"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -359,7 +359,7 @@
                 android:text="En mantenimiento"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:layout_marginTop="24dp" />
 
             <TextView
@@ -374,7 +374,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="16dp"
-                app:cardBackgroundColor="#1E2A32">
+                app:cardBackgroundColor="#DBD6CE">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -386,13 +386,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Laura Paredes  •  Ajuste de bastilla"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#000000" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="3 UNIDAD(ES)"
-                        android:textColor="#90CAF9"
+                        android:textColor="#C5FF5722"
                         android:textStyle="bold"
                         android:layout_marginBottom="8dp" />
 
@@ -406,13 +406,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Marcos Polo  •  Cambio de cierre"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#000000" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1 UNIDAD(ES)"
-                        android:textColor="#90CAF9"
+                        android:textColor="#C5FF5722"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -426,9 +426,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#1E2A32"
-        app:itemIconTint="#9AA0A6"
-        app:itemTextColor="#9AA0A6"
+        android:background="#81FF9800"
+        app:itemIconTint="#000000"
+        app:itemTextColor="#000000"
         app:labelVisibilityMode="labeled"
         app:menu="@drawable/menu_bottom" />
 
