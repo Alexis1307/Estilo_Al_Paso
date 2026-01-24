@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="20dp">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/estilo_al_paso_logo"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Administrador"
+                    android:textColor="#95A5A6"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Carlos Rueda"
+                    android:textColor="#2C3E50"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Opciones del menú -->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mantenimiento"
+            android:textColor="#2C3E50"
+            android:layout_marginBottom="12dp"
+            app:cornerRadius="12dp"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Historial general"
+            android:textColor="#2C3E50"
+            android:backgroundTint="#ECEFF1"
+            android:layout_marginBottom="12dp"
+            app: cornerRadius= "12dp"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Usuarios"
+            android:textColor="#2C3E50"
+            android:backgroundTint="#ECEFF1"
+            android:layout_marginBottom="12dp"
+            app:cornerRadius="12dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reportes"
+            android:textColor="#2C3E50"
+            android:backgroundTint="#ECEFF1"
+            android:layout_marginBottom="12dp"
+            app:cornerRadius="12dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Configuración"
+            android:textColor="#2C3E50"
+            android:backgroundTint="#ECEFF1"
+            android:layout_marginBottom="12dp"
+            app:cornerRadius="12dp" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mi perfil"
+            android:textColor="#2C3E50"
+            android:backgroundTint="#ECEFF1"
+            android:layout_marginBottom="12dp"
+            app:cornerRadius="12dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ayuda"
+            android:textColor="#2C3E50"
+            android:backgroundTint="#ECEFF1"
+            android:layout_marginBottom="24dp"
+            app:cornerRadius="12dp" />
+
+        <!-- Botón cerrar sesión -->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cerrar sesión"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#F44336"
+            app:cornerRadius="12dp" />
+
+
+    </LinearLayout>
+</ScrollView>
