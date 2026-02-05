@@ -3,6 +3,9 @@
     <style name="Base.Theme.Estilo_Al_Paso_App" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowBackground">@color/gris_oscuro</item>
+        <item name="colorSurface">@color/gris_oscuro</item>
+        <item name="colorSurfaceVariant">@color/gris_oscuro</item>
     </style>
 
     <style name="Theme.Estilo_Al_Paso_App" parent="Base.Theme.Estilo_Al_Paso_App" />

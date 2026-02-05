@@ -5,5 +5,17 @@
     <color name="blue_iron">#4682B4</color>
     <color name="dorado">#EABE3F</color>
     <color name="gris_oscuro">#121212</color>
+    <color name="green">#008000</color>
+    <color name="green_sombra">#66B04F</color>
+    <color name="dorado_sombra">#ffff9e</color>
+    <color name="red">#DB4B4B</color>
+    <color name="red_sombra">#ffbfaa</color>
+    <color name="gris_very_dark">#2b2b2b</color>
+    <color name="transparente">#000000</color>
+
+
+
+
+
 
 </resources>
