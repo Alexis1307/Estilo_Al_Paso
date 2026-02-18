@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.estilo.estilo_al_paso.ui.fragment.ClientesFragment
+import com.estilo.estilo_al_paso.ui.fragment.EnvioFragment
 import com.estilo.estilo_al_paso.ui.fragment.HomeFragment
-import com.estilo.estilo_al_paso.ui.fragment.RegisterFragment
+import com.estilo.estilo_al_paso.ui.fragment.RegisterPrendaFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_register -> {
-                    loadFragment(RegisterFragment())
+                    loadFragment(RegisterPrendaFragment())
                     true
                 }
 
@@ -38,10 +39,10 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
-               /* R.id.nav_envios -> {
-                    loadFragment(EnviosFragment())
+               R.id.nav_envios -> {
+                    loadFragment(EnvioFragment())
                     true
-                }*/
+               }
 
                 else -> false
             }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="2dp"
+    android:backgroundTint="@color/gris_very_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvDescripcionPrenda"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sudadera Oversize Algodón - Talla L"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <ImageButton
+                android:id="@+id/btnEliminarPrenda"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_delete"
+                app:tint="@color/red" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvPrecioPrenda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S/ 80.00"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/blue_iron"
+            android:layout_marginTop="6dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvEstadoPago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PENDIENTE"
+                android:textColor="#E57373"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:background="@drawable/bg_chip_estado"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"/>
+
+            <TextView
+                android:id="@+id/tvEstadoPrenda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BUEN ESTADO"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:layout_marginStart="10dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

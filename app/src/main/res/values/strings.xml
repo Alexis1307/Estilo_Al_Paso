@@ -5,6 +5,6 @@
     <string name="dni">DNI</string>
     <string name="telefono">Teléfono</string>
     <string name="direccion">Dirección</string>
-    <string name="correo">Correo Electrónico</string>
+    <string name="ciudad">Ciudad</string>
     <string name="boton_registrar_cliente">Registrar Cliente</string>
 </resources>

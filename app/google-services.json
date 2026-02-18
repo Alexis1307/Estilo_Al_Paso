@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "416969203282",
+    "project_id": "estiloalpaso",
+    "storage_bucket": "estiloalpaso.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416969203282:android:d7916ebde21fc75d05098b",
+        "android_client_info": {
+          "package_name": "com.estilo.estilo_al_paso"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDybLxaX9_T2F1Yd7dJND3BZqZfU0EwsPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
