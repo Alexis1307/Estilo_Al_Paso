@@ -81,6 +81,22 @@ class PaqueteRepository {
             .addOnFailureListener { onError(it) }
     }
 
+    fun obtenerPaquetePorId(
+        idPaquete: String,
+        onSuccess: (Paquete?) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        FirebaseFirestore.getInstance()
+            .collection("paquetes")
+            .document(idPaquete)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                onSuccess(snapshot.toObject(Paquete::class.java))
+            }
+            .addOnFailureListener { onError(it) }
+    }
+
+
     fun actualizarDeudaCliente(
         cliente: Cliente,
         montoPendiente: Double,

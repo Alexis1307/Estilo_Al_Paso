@@ -73,47 +73,112 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/dtlNombreCliente"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre Cliente"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/xd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PENDIENTE"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/green"
+                        android:layout_marginStart="160dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DNI: -------"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Telefono: ---------"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="100dp"/>
+                </LinearLayout>
+
                 <TextView
-                    android:id="@+id/dtlNombreCliente"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nombre Cliente"
-                    android:textSize="20sp"
+                    android:text="Ciudad: -------"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/white"/>
 
                 <TextView
-                    android:id="@+id/dtlDniCliente"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="DNI"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="6dp"/>
+                    android:text="Direccion: -------"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
 
-                <TextView
-                    android:id="@+id/dtlTelefonoCliente"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Teléfono"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="4dp"/>
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
 
-                <TextView
-                    android:id="@+id/dtlCiudadCliente"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Prendas: -------"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Teipo Envio: ---------"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="30dp"
+                       />
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ciudad"
+                    android:text="Confirmar Envio"
                     android:textColor="@color/white"
-                    android:layout_marginTop="4dp"/>
+                    android:backgroundTint="@color/dorado"
+                    android:layout_marginBottom="7dp"
+                    />
 
-                <TextView
-                    android:id="@+id/dtlDireccionCliente"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Dirección"
+                    android:text="Cancelar Envio"
                     android:textColor="@color/white"
-                    android:layout_marginTop="4dp"/>
-
+                    android:backgroundTint="@color/red"
+                    />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

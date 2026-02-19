@@ -172,7 +172,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/chipBuenestado"
                 android:text="Buen Estado"
-                android:textSize="17dp"
                 style="@style/Widget.MaterialComponents.Chip.Choice"/>
 
             <com.google.android.material.chip.Chip
@@ -180,7 +179,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/chipLavanderia"
                 android:text="Lavanderia"
-                android:textSize="17dp"
                 style="@style/Widget.MaterialComponents.Chip.Choice"/>
 
             <com.google.android.material.chip.Chip

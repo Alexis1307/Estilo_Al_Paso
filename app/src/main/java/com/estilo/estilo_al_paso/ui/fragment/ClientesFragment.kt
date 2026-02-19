@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,8 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.estilo.estilo_al_paso.R
 import com.estilo.estilo_al_paso.ui.cliente.ClienteAdapter
 import com.estilo.estilo_al_paso.ui.cliente.RegistrarClienteActivity
-import com.estilo.estilo_al_paso.viewmodel.ClienteViewModel
+import com.estilo.estilo_al_paso.ui.cliente.ClienteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
+import androidx.core.widget.addTextChangedListener
+import com.estilo.estilo_al_paso.ui.cliente.DetailsClienteActivity
+
 
 class ClientesFragment : Fragment() {
 
@@ -33,18 +38,27 @@ class ClientesFragment : Fragment() {
 
         configurarRecyclerView(view)
         configurarFab(view)
+        configurarBuscador(view)
+        configurarBotones(view)
         observarClientes()
 
         viewModel.cargarClientes()
     }
 
     private fun configurarRecyclerView(view: View) {
-        adapter = ClienteAdapter()
+        adapter = ClienteAdapter { cliente ->
+
+            val intent = Intent(requireContext(), DetailsClienteActivity::class.java)
+            intent.putExtra("idCliente", cliente.idCliente)
+            startActivity(intent)
+
+        }
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvClientes)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
+
     }
 
     private fun configurarFab(view: View) {
@@ -57,17 +71,39 @@ class ClientesFragment : Fragment() {
     }
 
     private fun observarClientes() {
-        viewModel.clientes.observe(viewLifecycleOwner) { lista ->
-
-            val listaOrdenada = lista.sortedByDescending { it.deudaTotal > 0 }
-
-            adapter.actualizarLista(listaOrdenada)
+        viewModel.clientesFiltrados.observe(viewLifecycleOwner) { lista ->
+            adapter.actualizarLista(lista)
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun configurarBuscador(view: View) {
 
-        viewModel.cargarClientes()
+        val etBuscar = view.findViewById<TextInputEditText>(R.id.etBuscar)
+
+        etBuscar.addTextChangedListener { editable ->
+            viewModel.actualizarTextoBusqueda(editable?.toString() ?: "")
+        }
     }
+
+    private fun configurarBotones(view: View) {
+
+        val btnPendientes = view.findViewById<Button>(R.id.btnPendiente)
+        val btnPagados = view.findViewById<Button>(R.id.btnPagado)
+        val btnTodos = view.findViewById<Button>(R.id.btnTodos)
+
+        btnPendientes.setOnClickListener {
+            viewModel.filtrarPendientes()
+        }
+
+        btnPagados.setOnClickListener {
+            viewModel.filtrarPagados()
+        }
+
+        btnTodos.setOnClickListener {
+            viewModel.limpiarFiltroEstado()
+        }
+    }
+
+
+
 }

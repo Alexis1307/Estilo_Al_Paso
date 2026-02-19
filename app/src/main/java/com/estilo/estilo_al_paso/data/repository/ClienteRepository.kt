@@ -3,6 +3,7 @@ package com.estilo.estilo_al_paso.data.repository
 import com.estilo.estilo_al_paso.data.model.Cliente
 import com.estilo.estilo_al_paso.data.remote.FirebaseService
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
 class ClienteRepository {
@@ -36,6 +37,22 @@ class ClienteRepository {
             "estadoCliente",
             Cliente.EstadoCliente.activo.name
         )
+
+    fun obtenerClientePorId(
+        idCliente: String,
+        onSuccess: (Cliente?) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        FirebaseFirestore.getInstance()
+            .collection("clientes")
+            .document(idCliente)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                onSuccess(snapshot.toObject(Cliente::class.java))
+            }
+            .addOnFailureListener { onError(it) }
+    }
+
 
     fun escucharClientesActivos(onResult: (List<Cliente>) -> Unit) {
 

@@ -9,30 +9,16 @@ class EnvioRepository {
     private val enviosRef = db.collection("envios")
 
     fun crearEnvio(
-        idCliente: String,
-        idPaquete: String,
-        tipoEnvio: Envio.TipoEnvio,
+        envio: Envio,
         onSuccess: () -> Unit,
         onError: (Exception) -> Unit
     ) {
-
-        val idGenerado = enviosRef.document().id
-
-        val envioMap = hashMapOf(
-            "idEnvio" to idGenerado,
-            "idCliente" to idCliente,
-            "idPaquete" to idPaquete,
-            "tipoEnvio" to tipoEnvio.name,
-            "estadoEnvio" to Envio.EstadoEnvio.programado.name,
-            "fechaProgramada" to System.currentTimeMillis(),
-            "fechaCompletado" to null
-        )
-
-        enviosRef.document(idGenerado)
-            .set(envioMap)
+        enviosRef.document(envio.idEnvio)
+            .set(envio)
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onError(it) }
     }
+
 
     fun completarEnvio(
         idEnvio: String,
@@ -43,7 +29,7 @@ class EnvioRepository {
             .update(
                 mapOf(
                     "estadoEnvio" to Envio.EstadoEnvio.completado.name,
-                    "fechaCompletado" to System.currentTimeMillis()
+                    "fechaEnvioReal" to System.currentTimeMillis()
                 )
             )
             .addOnSuccessListener { onSuccess() }
@@ -72,19 +58,7 @@ class EnvioRepository {
 
                 val lista = snapshot.documents.mapNotNull { doc ->
                     try {
-                        Envio(
-                            idEnvio = doc.getString("idEnvio") ?: "",
-                            idCliente = doc.getString("idCliente") ?: "",
-                            idPaquete = doc.getString("idPaquete") ?: "",
-                            tipoEnvio = Envio.TipoEnvio.valueOf(
-                                doc.getString("tipoEnvio") ?: "delivery"
-                            ),
-                            estadoEnvio = Envio.EstadoEnvio.valueOf(
-                                doc.getString("estadoEnvio") ?: "programado"
-                            ),
-                            fechaProgramada = doc.getLong("fechaProgramada") ?: 0L,
-                            fechaCompletado = doc.getLong("fechaCompletado")
-                        )
+                        doc.toObject(Envio::class.java)
                     } catch (e: Exception) {
                         null
                     }
@@ -94,4 +68,5 @@ class EnvioRepository {
             }
             .addOnFailureListener { onError(it) }
     }
+
 }

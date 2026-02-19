@@ -17,14 +17,14 @@ import com.estilo.estilo_al_paso.R
 import com.estilo.estilo_al_paso.data.model.Cliente
 import com.estilo.estilo_al_paso.data.model.Prenda
 import com.estilo.estilo_al_paso.ui.prenda.PrendaAdapter
-import com.estilo.estilo_al_paso.viewmodel.RegistrarPaqueteViewModel
+import com.estilo.estilo_al_paso.ui.prenda.RegistrarPrendaViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.UUID
 
 class RegisterPrendaFragment : Fragment() {
-    private lateinit var viewModel: RegistrarPaqueteViewModel
+    private lateinit var viewModel: RegistrarPrendaViewModel
     private lateinit var adapter: PrendaAdapter
 
     override fun onCreateView(
@@ -40,7 +40,7 @@ class RegisterPrendaFragment : Fragment() {
         )
 
         viewModel = ViewModelProvider(this)
-            .get(RegistrarPaqueteViewModel::class.java)
+            .get(RegistrarPrendaViewModel::class.java)
 
         setupRecyclerView(view)
         setupObservers(view)

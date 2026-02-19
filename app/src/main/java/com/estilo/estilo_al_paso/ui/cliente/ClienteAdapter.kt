@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.estilo.estilo_al_paso.R
 import com.estilo.estilo_al_paso.data.model.Cliente
 
-class ClienteAdapter : RecyclerView.Adapter<ClienteAdapter.ClienteViewHolder>() {
+class ClienteAdapter(
+    private val onItemClick: ((Cliente) -> Unit)? = null
+) : RecyclerView.Adapter<ClienteAdapter.ClienteViewHolder>() {
+
     private var listaClientes = listOf<Cliente>()
 
     fun actualizarLista(nuevaLista: List<Cliente>) {
@@ -23,7 +26,12 @@ class ClienteAdapter : RecyclerView.Adapter<ClienteAdapter.ClienteViewHolder>() 
     }
 
     override fun onBindViewHolder(holder: ClienteViewHolder, position: Int) {
-        holder.bind(listaClientes[position])
+        val cliente = listaClientes[position]
+        holder.bind(cliente)
+
+        holder.itemView.setOnClickListener {
+            onItemClick?.invoke(cliente)
+        }
     }
 
     override fun getItemCount() = listaClientes.size
@@ -34,6 +42,7 @@ class ClienteAdapter : RecyclerView.Adapter<ClienteAdapter.ClienteViewHolder>() 
         private val tvTelefono = itemView.findViewById<TextView>(R.id.telefonoCliente)
         private val tvCiudad = itemView.findViewById<TextView>(R.id.ciudadCliente)
         private val tvEstado = itemView.findViewById<TextView>(R.id.estadoFinanciero)
+
         fun bind(cliente: Cliente) {
 
             tvNombre.text = cliente.nameCliente
@@ -41,14 +50,11 @@ class ClienteAdapter : RecyclerView.Adapter<ClienteAdapter.ClienteViewHolder>() 
             tvCiudad.text = " - ${cliente.ciudadCliente}"
 
             if (cliente.deudaTotal <= 0.0) {
-
                 tvEstado.text = "PAGADO"
                 tvEstado.setTextColor(
                     itemView.context.getColor(R.color.green)
                 )
-
             } else {
-
                 tvEstado.text = "DEUDA: S/ %.2f".format(cliente.deudaTotal)
                 tvEstado.setTextColor(
                     itemView.context.getColor(R.color.red)

@@ -4,11 +4,19 @@ data class Envio(
     val idEnvio: String = "",
     val idPaquete: String = "",
     val idCliente: String = "",
+
+    val nombreCliente: String = "",
+    val dniCliente: String = "",
+    val telefonoCliente: String = "",
+    val ciudadCliente: String = "",
+    val direccionCliente: String = "",
+    val totalPrendas: Int = 0,
+
     val tipoEnvio: TipoEnvio = TipoEnvio.delivery,
     val estadoEnvio: EstadoEnvio = EstadoEnvio.programado,
-    val fechaProgramada: Long = System.currentTimeMillis(),
-    val fechaCompletado: Long? = null,
-){
+
+    val fechaEnvioReal: Long? = null
+) {
     enum class TipoEnvio {
         delivery,
         encomienda
@@ -20,4 +28,5 @@ data class Envio(
         completado
     }
 }
+
 

@@ -1,4 +1,4 @@
-package com.estilo.estilo_al_paso.viewmodel
+package com.estilo.estilo_al_paso.ui.prenda
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import com.estilo.estilo_al_paso.data.model.Prenda
 import com.estilo.estilo_al_paso.data.repository.ClienteRepository
 import com.estilo.estilo_al_paso.data.repository.PaqueteRepository
 
-class RegistrarPaqueteViewModel : ViewModel(){
+class RegistrarPrendaViewModel : ViewModel(){
     private val repository = PaqueteRepository()
     private val clienteRepository = ClienteRepository()
 

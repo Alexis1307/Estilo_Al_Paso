@@ -58,6 +58,7 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etBuscar"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:textColor="@color/white"
@@ -79,6 +80,7 @@
                 android:paddingRight="20dp">
 
                 <Button
+                    android:id="@+id/btnTodos"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:text="Todos"
@@ -88,6 +90,7 @@
                     app:cornerRadius="20dp"/>
 
                 <Button
+                    android:id="@+id/btnPagado"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
@@ -98,6 +101,7 @@
                     app:cornerRadius="20dp"/>
 
                 <Button
+                    android:id="@+id/btnPendiente"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
