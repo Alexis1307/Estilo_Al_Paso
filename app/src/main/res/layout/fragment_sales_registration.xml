@@ -131,22 +131,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Estado Pago -->
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroupPago"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             app:singleSelection="true"
             app:layout_constraintTop_toBottomOf="@id/etDescripcion"
             app:layout_constraintStart_toStartOf="parent"
-            >
+            app:layout_constraintEnd_toEndOf="parent">
+        >
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/chipPagado"
                 android:text="Pagado"
+                android:textColor="@color/white"
                 style="@style/Widget.MaterialComponents.Chip.Choice"/>
 
             <com.google.android.material.chip.Chip
@@ -154,31 +155,35 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/chipPendiente"
                 android:text="Pendiente"
+                android:textColor="@color/white"
                 style="@style/Widget.MaterialComponents.Chip.Choice"/>
         </com.google.android.material.chip.ChipGroup>
 
-        <!--Estado de Prenda -->
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroupEstadoPrenda"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             app:singleSelection="true"
             app:layout_constraintTop_toBottomOf="@id/chipGroupPago"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <com.google.android.material.chip.Chip
+
+        <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/chipBuenestado"
                 android:text="Buen Estado"
-                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+                android:textColor="@color/white"
+            style="@style/Widget.MaterialComponents.Chip.Choice"/>
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/chipLavanderia"
                 android:text="Lavanderia"
+                android:textColor="@color/white"
                 style="@style/Widget.MaterialComponents.Chip.Choice"/>
 
             <com.google.android.material.chip.Chip
@@ -186,6 +191,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/chipReparacion"
                 android:text="Reparacion"
+                android:textColor="@color/white"
                 style="@style/Widget.MaterialComponents.Chip.Choice"/>
         </com.google.android.material.chip.ChipGroup>
 

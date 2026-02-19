@@ -24,7 +24,9 @@
         <activity android:name=".LoginActivity"/>
         <activity android:name=".MainActivity"/>
         <activity android:name=".ui.cliente.RegistrarClienteActivity"/>
-        <activity android:name=".ui.cliente.DetailsClienteActivity"/>
+        <activity
+            android:name="com.estilo.estilo_al_paso.ui.cliente.DetailsClienteActivity"
+            android:exported="false" />
 
     </application>
 
