@@ -89,9 +89,11 @@ class RegisterPrendaFragment : Fragment() {
 
         viewModel.guardadoExitoso.observe(viewLifecycleOwner) {
             if (it == true) {
-                Toast.makeText(requireContext(),
-                    "Paquete guardado correctamente",
-                    Toast.LENGTH_LONG).show()
+                context?.let {
+                    Toast.makeText(it, "Paquete guardado correctamente"
+                        , Toast.LENGTH_LONG).show()
+                }
+
             }
         }
 
@@ -104,8 +106,7 @@ class RegisterPrendaFragment : Fragment() {
         }
 
         viewModel.loading.observe(viewLifecycleOwner) {
-            // Aquí puedes luego agregar ProgressBar
-        }
+            }
     }
 
     private fun setupListeners(view: View) {
@@ -158,25 +159,30 @@ class RegisterPrendaFragment : Fragment() {
             .get()
             .addOnSuccessListener { result ->
 
-                val listaClientes = result.toObjects(Cliente::class.java)
+                if (!isAdded) return@addOnSuccessListener
 
+                val listaClientes = result.toObjects(Cliente::class.java)
                 val nombresClientes = listaClientes.map { it.nameCliente }
 
-                val adapterClientes = ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_dropdown_item_1line,
-                    nombresClientes
-                )
+                context?.let { ctx ->
 
-                val autoComplete =
-                    view.findViewById<AutoCompleteTextView>(R.id.actClientes)
+                    val adapterClientes = ArrayAdapter(
+                        ctx,
+                        android.R.layout.simple_dropdown_item_1line,
+                        nombresClientes
+                    )
 
-                autoComplete.setAdapter(adapterClientes)
+                    val autoComplete =
+                        view.findViewById<AutoCompleteTextView>(R.id.actClientes)
 
-                autoComplete.setOnItemClickListener { _, _, position, _ ->
-                    val clienteSeleccionado = listaClientes[position]
-                    viewModel.seleccionarCliente(clienteSeleccionado)
+                    autoComplete.setAdapter(adapterClientes)
+
+                    autoComplete.setOnItemClickListener { _, _, position, _ ->
+                        val clienteSeleccionado = listaClientes[position]
+                        viewModel.seleccionarCliente(clienteSeleccionado)
+                    }
                 }
             }
     }
+
 }

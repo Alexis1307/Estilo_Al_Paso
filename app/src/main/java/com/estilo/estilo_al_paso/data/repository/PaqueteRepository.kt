@@ -1,9 +1,12 @@
 package com.estilo.estilo_al_paso.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.estilo.estilo_al_paso.data.model.Cliente
 import com.estilo.estilo_al_paso.data.model.Paquete
 import com.estilo.estilo_al_paso.data.model.Prenda
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class PaqueteRepository {
     private val db = FirebaseFirestore.getInstance()
@@ -19,7 +22,13 @@ class PaqueteRepository {
     ) {
         paquetesRef
             .whereEqualTo("idCliente", clienteId)
-            .whereEqualTo("estadoPaquete", Paquete.EstadoPaquete.activo.name)
+            .whereIn(
+                "estadoPaquete",
+                listOf(
+                    Paquete.EstadoPaquete.activo.name,
+                    Paquete.EstadoPaquete.pendienteEnvio.name
+                )
+            )
             .limit(1)
             .get()
             .addOnSuccessListener { result ->
@@ -193,6 +202,77 @@ class PaqueteRepository {
                 val tienePendientes = snapshot.documents.isNotEmpty()
                 onResult(tienePendientes)
             }
+    }
+
+    fun obtenerPrendasPorPaquete(
+        idPaquete: String,
+        onResult: (List<Prenda>) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        prendasRef
+            .whereEqualTo("idPaquete", idPaquete)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val lista = snapshot.toObjects(Prenda::class.java)
+                onResult(lista)
+            }
+            .addOnFailureListener { onError(it) }
+    }
+
+    fun cambiarEstadoPaquete(
+        idPaquete: String,
+        nuevoEstado: Paquete.EstadoPaquete,
+        onSuccess: () -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        paquetesRef
+            .document(idPaquete)
+            .update("estadoPaquete", nuevoEstado.name)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onError(it) }
+    }
+
+    fun confirmarEnvio(
+        paquete: Paquete,
+        onSuccess: () -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+
+        val envioRef = db.collection("envios").document()
+
+        val envioData = hashMapOf(
+            "idEnvio" to envioRef.id,
+            "idPaquete" to paquete.idPaquete,
+            "idCliente" to paquete.idCliente,
+            "fechaEnvio" to System.currentTimeMillis(),
+            "estadoEnvio" to "pendiente"
+        )
+
+        db.runBatch { batch ->
+
+            val paqueteRef = paquetesRef.document(paquete.idPaquete)
+            batch.update(paqueteRef, "estadoPaquete", Paquete.EstadoPaquete.pendienteEnvio.name)
+
+            batch.set(envioRef, envioData)
+
+        }.addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onError(it) }
+    }
+
+    fun obtenerHistorialPaquetes(
+        clienteId: String,
+        onResult: (List<Paquete>) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        paquetesRef
+            .whereEqualTo("idCliente", clienteId)
+            .orderBy("fechaCreacion", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val lista = snapshot.toObjects(Paquete::class.java)
+                onResult(lista)
+            }
+            .addOnFailureListener { onError(it) }
     }
 
 }
