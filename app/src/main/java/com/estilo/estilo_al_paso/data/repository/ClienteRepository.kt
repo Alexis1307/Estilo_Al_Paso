@@ -6,6 +6,8 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
+
+
 class ClienteRepository {
     private val db = FirebaseService.db
     private val clientesRef = db.collection("clientes")

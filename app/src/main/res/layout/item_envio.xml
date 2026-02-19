@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardBackgroundColor="@color/gris_very_dark"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+        <TextView
+            android:id="@+id/tvNombreCliente"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Nombre Cliente"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/containerTipoEnvio"/>
+
+        <FrameLayout
+            android:id="@+id/containerTipoEnvio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_badge_tipo"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvTipoEstado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PEDIENTE"
+                android:textColor="@color/dorado"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvDatosContacto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="DNI | Teléfono"
+            android:textColor="@color/blue_iron"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNombreCliente" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/gris_oscuro"
+            app:layout_constraintTop_toBottomOf="@id/tvDatosContacto" />
+
+        <TextView
+            android:id="@+id/tvUbicacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Ciudad, Dirección"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/ic_location"
+            app:drawableTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <TextView
+            android:id="@+id/tvCantidadPrendas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Cantidad de prendas: "
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/ic_box"
+            app:drawableTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/tvUbicacion" />
+        <TextView
+            android:id="@+id/tvtipoEnvio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Tipo Envio:"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/ic_box"
+            app:drawableTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/tvCantidadPrendas" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tvtipoEnvio">
+
+        <Button
+            android:id="@+id/btnCancelarEnvio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/red"
+            android:text="Cancelar"
+            android:textAllCaps="false"
+            app:cornerRadius="8dp" />
+        <Button
+            android:id="@+id/btnConfirmarEnvio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:backgroundTint="@color/green"
+            android:text="Confirmar Envío"
+            android:textAllCaps="false"
+            app:cornerRadius="8dp" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</androidx.cardview.widget.CardView>

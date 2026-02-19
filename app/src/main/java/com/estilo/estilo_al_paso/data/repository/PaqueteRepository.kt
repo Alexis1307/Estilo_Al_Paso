@@ -60,6 +60,7 @@ class PaqueteRepository {
 
     fun guardarPrendas(
         paqueteId: String,
+
         prendas: List<Prenda>,
         onSuccess: () -> Unit,
         onError: (Exception) -> Unit
