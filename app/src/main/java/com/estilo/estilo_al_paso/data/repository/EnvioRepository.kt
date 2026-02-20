@@ -55,15 +55,16 @@ class EnvioRepository {
             .whereEqualTo("estadoEnvio", Envio.EstadoEnvio.programado.name)
             .get()
             .addOnSuccessListener { snapshot ->
-
                 val lista = snapshot.documents.mapNotNull { doc ->
                     try {
+                        // Esto es lo que está fallando
                         doc.toObject(Envio::class.java)
                     } catch (e: Exception) {
+                        // ESTO te dirá en el Logcat por qué falla el mapeo
+                        android.util.Log.e("FIREBASE_ERROR", "Error mapeando documento ${doc.id}: ${e.message}")
                         null
                     }
                 }
-
                 onResult(lista)
             }
             .addOnFailureListener { onError(it) }

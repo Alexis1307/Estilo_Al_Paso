@@ -29,14 +29,17 @@ class EnvioViewModel : ViewModel() {
 
     fun filtrarEnvios(query: String){
         val texto = query.lowercase()
+        // Si este log dice 0, el problema es el Repository (Punto 1)
+        android.util.Log.d("BUSQUEDA", "Filtrando '$texto' en lista de: ${listaCompleta.size}")
+
         if (texto.isEmpty()){
-            _envios.value=listaCompleta
-        }else{
-            val filtrarda=listaCompleta.filter{
-                envio->envio.nombreCliente.lowercase().contains(texto) ||
-                    envio.dniCliente.lowercase().contains(texto)
+            _envios.value = listaCompleta
+        } else {
+            val filtrarda = listaCompleta.filter { envio ->
+                envio.nombreCliente.lowercase().contains(texto) ||
+                        envio.dniCliente.contains(texto)
             }
-            _envios.value=filtrarda
+            _envios.value = filtrarda
         }
     }
 
