@@ -45,6 +45,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
     // Room
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
@@ -61,4 +63,5 @@ dependencies {
     //firebase
     implementation (platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation ("com.google.firebase:firebase-firestore-ktx")
+
 }

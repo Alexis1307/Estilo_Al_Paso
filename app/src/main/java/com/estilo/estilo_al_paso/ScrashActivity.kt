@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 class ScrashActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spresh)
 

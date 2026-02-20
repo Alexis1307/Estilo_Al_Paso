@@ -1,4 +1,7 @@
 <resources>
+    <string name="login">Ingresar</string>
+    <string name="registrar_usuario">Crear Cuenta</string>
+    <string name="cerrar_sesion">Cerrar Sesión</string>
     <string name="app_name">Estilo_Al_Paso_App</string>
     <string name="registrar_cliente">Registar Cliente</string>
     <string name="nombre_completo">Nombre Completo</string>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/grupo_gestion">
+        <item android:id="@+id/drawer_mantenimiento" android:title="Mantenimiento" android:icon="@android:drawable/ic_menu_manage" />
+        <item android:id="@+id/drawer_pendientes" android:title="Pendientes de Pago" android:icon="@android:drawable/ic_menu_agenda" />
+        <item android:id="@+id/drawer_historial_personal" android:title="Historial Personal" android:icon="@android:drawable/ic_menu_recent_history" />
+    </group>
+
+    <group android:id="@+id/grupo_cuenta">
+        <item android:id="@+id/drawer_perfil" android:title="Mi Perfil" android:icon="@android:drawable/ic_menu_edit" />
+        <item android:id="@+id/drawer_ayuda" android:title="Ayuda" android:icon="@android:drawable/ic_menu_help" />
+        <item android:id="@+id/drawer_cerrar_sesion" android:title="Cerrar Sesión" android:icon="@android:drawable/ic_lock_power_off" />
+    </group>
+</menu>
