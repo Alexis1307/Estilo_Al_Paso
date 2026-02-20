@@ -64,4 +64,8 @@ dependencies {
     implementation (platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation ("com.google.firebase:firebase-firestore-ktx")
 
+    //jbcrypt
+    implementation("org.mindrot:jbcrypt:0.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+
 }

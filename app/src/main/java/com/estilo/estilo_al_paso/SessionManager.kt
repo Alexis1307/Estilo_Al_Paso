@@ -8,7 +8,7 @@ class SessionManager(context: Context) {
 
     companion object {
         const val ROL_ADMIN = "admin"
-        const val ROL_CLIENTE = "cliente"
+        const val ROL_EMPLEADO = "empleado"
     }
 
     fun guardarSesion(userId: String, nombre: String, rol: String) {

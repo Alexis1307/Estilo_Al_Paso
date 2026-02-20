@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
-import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -52,7 +52,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         configurarMenuPorRol(rol)
         configurarNavHeader(nombre, rol)
         navigationView.setNavigationItemSelectedListener(this)
-        configurarBottomNav(rol)
+        configurarBottomNav()
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
 
         if (savedInstanceState == null) {
             loadFragment(HomeFragment())
@@ -64,12 +75,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.menu.clear()
         if (rol == SessionManager.ROL_ADMIN) {
             navigationView.inflateMenu(R.menu.drawer_admin)
-            bottomNav.menu.findItem(R.id.nav_clientes)?.isVisible = true
-            bottomNav.menu.findItem(R.id.nav_envios)?.isVisible = true
         } else {
-            navigationView.inflateMenu(R.menu.drawer_cliente)
-            bottomNav.menu.findItem(R.id.nav_clientes)?.isVisible = false
-            bottomNav.menu.findItem(R.id.nav_envios)?.isVisible = false
+            navigationView.inflateMenu(R.menu.drawer_empleado)
         }
     }
 
@@ -77,22 +84,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val header = navigationView.getHeaderView(0)
         header.findViewById<TextView>(R.id.navHeaderNombre).text = nombre
         header.findViewById<TextView>(R.id.navHeaderRol).text =
-            if (rol == SessionManager.ROL_ADMIN) "Administrador" else "Cliente"
+            if (rol == SessionManager.ROL_ADMIN) "Administrador" else "Empleado"
     }
 
-    private fun configurarBottomNav(rol: String) {
+    private fun configurarBottomNav() {
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> { loadFragment(HomeFragment()); true }
                 R.id.nav_register -> { loadFragment(RegisterPrendaFragment()); true }
-                R.id.nav_clientes -> {
-                    if (rol == SessionManager.ROL_ADMIN) { loadFragment(ClientesFragment()); true }
-                    else false
-                }
-                R.id.nav_envios -> {
-                    if (rol == SessionManager.ROL_ADMIN) { loadFragment(EnvioFragment()); true }
-                    else false
-                }
+                R.id.nav_clientes -> { loadFragment(ClientesFragment()); true }
+                R.id.nav_envios -> { loadFragment(EnvioFragment()); true }
                 else -> false
             }
         }
@@ -101,11 +102,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.drawer_registrar_admin -> {
-                startActivity(Intent(this, RegisterAdminActivity::class.java))
+                val intent = Intent(this, RegisterUsuarioActivity::class.java)
+                intent.putExtra(RegisterUsuarioActivity.EXTRA_ROL, SessionManager.ROL_ADMIN)
+                startActivity(intent)
             }
-            R.id.drawer_cerrar_sesion -> {
-                confirmarCierreSesion()
+            R.id.drawer_registrar_empleado -> {
+                val intent = Intent(this, RegisterUsuarioActivity::class.java)
+                intent.putExtra(RegisterUsuarioActivity.EXTRA_ROL, SessionManager.ROL_EMPLEADO)
+                startActivity(intent)
             }
+            R.id.drawer_cerrar_sesion -> confirmarCierreSesion()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -124,14 +130,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             .setNegativeButton("Cancelar", null)
             .show()
-    }
-
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
     }
 
     fun loadFragment(fragment: Fragment) {

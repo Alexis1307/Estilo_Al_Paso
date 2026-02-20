@@ -12,18 +12,13 @@
         android:orientation="vertical"
         android:padding="32dp">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="24dp"
-            android:src="@drawable/estilo_al_paso_logo" />
-
         <TextView
+            android:id="@+id/regTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text="Crear Cuenta"
-            android:textColor="@color/white"
+            android:layout_marginBottom="32dp"
+            android:text="Registrar Usuario"
+            android:textColor="@color/dorado"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -66,12 +61,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/btnRegistrar"
+            android:id="@+id/btnRegistrarUsuario"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="32dp"
             android:backgroundTint="@color/dorado"
-            android:text="Registrar"
+            android:text="Crear"
             android:textColor="@color/gris_oscuro"
             android:textStyle="bold"
             app:cornerRadius="12dp" />
@@ -83,15 +78,5 @@
             android:layout_marginTop="16dp"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/tvVolverLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="¿Ya tienes cuenta? Inicia sesión"
-            android:textColor="@color/blue_iron"
-            android:textSize="14sp" />
     </LinearLayout>
 </ScrollView>

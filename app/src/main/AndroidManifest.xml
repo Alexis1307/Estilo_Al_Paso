@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -23,8 +25,7 @@
         </activity>
 
         <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".RegisterAdminActivity" />
+        <activity android:name=".RegisterUsuarioActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".ui.cliente.RegistrarClienteActivity" />
         <activity android:name="com.estilo.estilo_al_paso.ui.cliente.DetailsClienteActivity" android:exported="false" />

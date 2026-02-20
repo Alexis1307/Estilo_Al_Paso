@@ -5,13 +5,17 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.estilo.estilo_al_paso.data.model.Usuarios
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
 
@@ -42,9 +46,7 @@ class LoginActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btnIngresar).setOnClickListener { intentarLogin() }
 
-        findViewById<TextView>(R.id.tvIrARegistrar).setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
-        }
+        crearAdminInicial()
     }
 
     private fun intentarLogin() {
@@ -59,29 +61,91 @@ class LoginActivity : AppCompatActivity() {
 
         setLoading(true)
 
-        db.collection("usuarios")
-            .whereEqualTo("nameUser", usuario)
-            .whereEqualTo("estadoUser", "activo")
-            .get()
-            .addOnSuccessListener { docs ->
-                setLoading(false)
-                if (docs.isEmpty) {
-                    usuarioLayout.error = "Usuario no encontrado"
-                    return@addOnSuccessListener
+        lifecycleScope.launch {
+            try {
+
+                val docs = withContext(Dispatchers.IO) {
+                    db.collection("usuarios")
+                        .whereEqualTo("nameUser", usuario)
+                        .get()
+                        .await()
                 }
+
+                if (docs.isEmpty) {
+                    setLoading(false)
+                    usuarioLayout.error = "Usuario no encontrado"
+                    return@launch
+                }
+
                 val doc = docs.documents[0]
                 val user = doc.toObject(Usuarios::class.java)
-                if (user == null || user.passwordUser != password) {
-                    passwordLayout.error = "Contraseña incorrecta"
-                    return@addOnSuccessListener
+
+                if (user == null) {
+                    setLoading(false)
+                    Toast.makeText(this@LoginActivity, "Error al obtener datos", Toast.LENGTH_SHORT).show()
+                    return@launch
                 }
+
+
+                if (user.estadoUser != "activo") {
+                    setLoading(false)
+                    usuarioLayout.error = "Usuario desactivado"
+                    return@launch
+                }
+
+                // BCrypt en hilo de fondo
+                val passwordCorrecta = withContext(Dispatchers.IO) {
+                    BCryptHelper.verificarPassword(password, user.passwordUser)
+                }
+
+                setLoading(false)
+
+                if (!passwordCorrecta) {
+                    passwordLayout.error = "Contraseña incorrecta"
+                    return@launch
+                }
+
                 sessionManager.guardarSesion(doc.id, user.nameUser, user.rolUser)
                 irAMain()
-            }
-            .addOnFailureListener {
+
+            } catch (e: Exception) {
                 setLoading(false)
-                Toast.makeText(this, "Error de conexión", Toast.LENGTH_SHORT).show()
+                // Mostrar el error real para diagnosticar
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Error: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
+        }
+    }
+
+    private fun crearAdminInicial() {
+        lifecycleScope.launch {
+            try {
+                val docs = withContext(Dispatchers.IO) {
+                    db.collection("usuarios")
+                        .whereEqualTo("nameUser", "admin")
+                        .get()
+                        .await()
+                }
+                if (docs.isEmpty) {
+                    val hashPassword = withContext(Dispatchers.IO) {
+                        BCryptHelper.hashPassword("admin123")
+                    }
+                    val admin = Usuarios(
+                        nameUser = "admin",
+                        passwordUser = hashPassword,
+                        rolUser = SessionManager.ROL_ADMIN,
+                        estadoUser = "activo"
+                    )
+                    withContext(Dispatchers.IO) {
+                        db.collection("usuarios").add(admin).await()
+                    }
+                }
+            } catch (e: Exception) {
+            }
+        }
     }
 
     private fun irAMain() {
