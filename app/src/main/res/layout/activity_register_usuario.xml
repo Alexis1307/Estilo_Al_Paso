@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gris_oscuro">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="32dp">
+
+        <TextView
+            android:id="@+id/regTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="Registrar Usuario"
+            android:textColor="@color/dorado"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/regNombreLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre de usuario"
+            app:boxBackgroundColor="@color/gris_very_dark"
+            app:boxBackgroundMode="filled"
+            app:boxStrokeColor="@color/dorado"
+            app:hintTextColor="@color/dorado">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/regNombreInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="@color/white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/regPasswordLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Contraseña"
+            app:boxBackgroundColor="@color/gris_very_dark"
+            app:boxBackgroundMode="filled"
+            app:boxStrokeColor="@color/dorado"
+            app:endIconMode="password_toggle"
+            app:hintTextColor="@color/dorado">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/regPasswordInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textColor="@color/white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnRegistrarUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/dorado"
+            android:text="Crear"
+            android:textColor="@color/gris_oscuro"
+            android:textStyle="bold"
+            app:cornerRadius="12dp" />
+
+        <ProgressBar
+            android:id="@+id/regProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</ScrollView>
