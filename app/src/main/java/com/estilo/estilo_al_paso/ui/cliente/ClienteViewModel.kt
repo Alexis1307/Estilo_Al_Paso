@@ -6,27 +6,56 @@ import androidx.lifecycle.ViewModel
 import com.estilo.estilo_al_paso.data.model.Cliente
 import com.estilo.estilo_al_paso.data.repository.ClienteRepository
 
-class ClienteViewModel : ViewModel(){
+class ClienteViewModel : ViewModel() {
+
     private val repository = ClienteRepository()
+
+    private val _clienteCreado = MutableLiveData<Boolean>()
+    val clienteCreado: LiveData<Boolean> = _clienteCreado
+
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> = _error
 
     private val _clientesOriginales = MutableLiveData<List<Cliente>>()
     private val _clientesFiltrados = MutableLiveData<List<Cliente>>()
     val clientesFiltrados: LiveData<List<Cliente>> = _clientesFiltrados
 
-    private var filtroEstado: String? = null
+    private var filtroEstado: FiltroEstado? = null
     private var textoBusqueda: String = ""
 
-    fun crearCliente(
-            name: String,
-            dni: String,
-            direccion: String,
-            ciudad: String,
-            telefono: String
-    ){
-        repository.crearCliente(name,dni,direccion,ciudad,telefono)
+    private var listenerRegistrado = false
+
+    enum class FiltroEstado {
+        PENDIENTES,
+        PAGADOS,
+        SIN_PRENDAS
     }
 
-    fun cargarClientes(){
+    fun crearCliente(
+        name: String,
+        dni: String,
+        direccion: String,
+        ciudad: String,
+        telefono: String
+    ) {
+        repository.crearCliente(
+            name,
+            dni,
+            direccion,
+            ciudad,
+            telefono,
+            onSuccess = {
+                _clienteCreado.value = true
+                filtroEstado = null
+                aplicarFiltros()
+            },
+            onError = {
+                _error.value = it.message
+            }
+        )
+    }
+
+    fun cargarClientes() {
         repository.escucharClientesActivos { lista ->
             _clientesOriginales.value = lista
             aplicarFiltros()
@@ -38,9 +67,10 @@ class ClienteViewModel : ViewModel(){
         var lista = _clientesOriginales.value ?: return
 
         lista = when (filtroEstado) {
-            "pendientes" -> repository.filtrarPorPendientes(lista)
-            "pagados" -> repository.filtrarPorPagados(lista)
-            else -> lista
+            FiltroEstado.PENDIENTES -> repository.filtrarPorPendientes(lista)
+            FiltroEstado.PAGADOS -> repository.filtrarPorPagados(lista)
+            FiltroEstado.SIN_PRENDAS -> repository.filtrarPorSinPrendas(lista)
+            null -> lista
         }
 
         if (textoBusqueda.isNotBlank()) {
@@ -50,18 +80,19 @@ class ClienteViewModel : ViewModel(){
         _clientesFiltrados.value = lista
     }
 
+
     fun actualizarTextoBusqueda(texto: String) {
         textoBusqueda = texto
         aplicarFiltros()
     }
 
     fun filtrarPendientes() {
-        filtroEstado = "pendientes"
+        filtroEstado = FiltroEstado.PENDIENTES
         aplicarFiltros()
     }
 
     fun filtrarPagados() {
-        filtroEstado = "pagados"
+        filtroEstado = FiltroEstado.PAGADOS
         aplicarFiltros()
     }
 
@@ -69,4 +100,11 @@ class ClienteViewModel : ViewModel(){
         filtroEstado = null
         aplicarFiltros()
     }
+
+    fun filtrarSinPrendas() {
+        filtroEstado = FiltroEstado.SIN_PRENDAS
+        aplicarFiltros()
+    }
+
+
 }

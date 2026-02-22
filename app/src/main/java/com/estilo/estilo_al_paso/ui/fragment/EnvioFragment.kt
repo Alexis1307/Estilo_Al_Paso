@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -34,10 +35,10 @@ class EnvioFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         val rv = view.findViewById<RecyclerView>(R.id.rvEnvios)
-        enviosAdapter= EnvioAdapter(
+        enviosAdapter = EnvioAdapter(
             listaEnvio = emptyList(),
-            onConfirmarClick = {id-> viewModel.confirmarEnvio(id)},
-            onCancelarClick = {id->viewModel.cancerlarEnvio(id)}
+            onConfirmarClick = { envio -> viewModel.confirmarEnvioDefinitivo(envio) },
+            onCancelarClick = { envio -> viewModel.cancelarEnvio(envio) }
         )
 
         rv.apply {
@@ -49,19 +50,24 @@ class EnvioFragment : Fragment(){
             listaDeFirebase->enviosAdapter.actualizarLista(listaDeFirebase)
         }
 
-        //BUSCADOR
+        viewModel.envios.observe(viewLifecycleOwner){
+                listaDeFirebase -> enviosAdapter.actualizarLista(listaDeFirebase)
+        }
+
         val etBuscar=view.findViewById<EditText>(R.id.etBuscarEnvio)
 
         etBuscar.addTextChangedListener { editable ->
             val texto = editable.toString()
-            viewModel.filtrarEnvios(texto) //
+            viewModel.filtrarEnvios(texto)
         }
 
+        viewModel.error.observe(viewLifecycleOwner) { mensaje ->
+            mensaje?.let {
+                Toast.makeText(requireContext(), "Error: $it", Toast.LENGTH_LONG).show()
+            }
+        }
 
-        viewModel.cargarEnvio()
-
-
-
+        viewModel.cargarEnvios()
 
     }
 

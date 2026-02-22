@@ -104,6 +104,7 @@
                         />
 
                         <TextView
+                            android:id="@+id/tvPaquetesActivos"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="12"
@@ -149,6 +150,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/tvPrendasVendidas"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="87"
@@ -201,6 +203,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/tvMontoTotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="S/ 4,250"
@@ -246,6 +249,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/tvMontoPendiente"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="S/ 980"

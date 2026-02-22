@@ -4,26 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.estilo.estilo_al_paso.R
-import com.estilo.estilo_al_paso.data.model.Cliente
 import com.estilo.estilo_al_paso.data.model.Prenda
 import com.estilo.estilo_al_paso.ui.prenda.PrendaAdapter
 import com.estilo.estilo_al_paso.ui.prenda.RegistrarPrendaViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
-import com.google.firebase.firestore.FirebaseFirestore
-import java.util.UUID
+import java.util.*
 
 class RegisterPrendaFragment : Fragment() {
+
     private lateinit var viewModel: RegistrarPrendaViewModel
     private lateinit var adapter: PrendaAdapter
 
@@ -46,7 +41,7 @@ class RegisterPrendaFragment : Fragment() {
         setupObservers(view)
         setupListeners(view)
 
-        cargarClientes(view)
+        viewModel.cargarClientes()
 
         return view
     }
@@ -56,9 +51,10 @@ class RegisterPrendaFragment : Fragment() {
             viewModel.eliminarPrenda(prenda)
         }
 
-        val recycler = view.findViewById<RecyclerView>(R.id.rvPrendas)
-        recycler.layoutManager = LinearLayoutManager(requireContext())
-        recycler.adapter = adapter
+        view.findViewById<RecyclerView>(R.id.rvPrendas).apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = this@RegisterPrendaFragment.adapter
+        }
     }
 
     private fun setupObservers(view: View) {
@@ -67,46 +63,91 @@ class RegisterPrendaFragment : Fragment() {
             adapter.submitList(it.toList())
         }
 
+        viewModel.clienteSeleccionado.observe(viewLifecycleOwner) {
+            view.findViewById<TextView>(R.id.tvNombreCliente)
+                .text = "Cliente                              ${it?.nameCliente ?: "-"}"
+        }
+
+        viewModel.totalPrendas.observe(viewLifecycleOwner) { cantidad ->
+            view.findViewById<TextView>(R.id.tvResumenCantidad).text =
+                "Cantidad prendas:         $cantidad"
+        }
+
         viewModel.totalPagar.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.tvTotal)
-                .text = "Total: S/ %.2f".format(it)
+                .text = "Total:                                S/ %.2f".format(it)
         }
 
-        viewModel.totalPendiente.observe(viewLifecycleOwner) { pendiente ->
+        viewModel.totalPendiente.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.tvPendiente)
-                .text = "Pendiente: S/ %.2f".format(pendiente)
+                .text = "Pendiente:                       S/ %.2f".format(it)
 
-            val pagado = viewModel.totalPagar.value!! - pendiente
-
+            val pagado = (viewModel.totalPagar.value ?: 0.0) - it
             view.findViewById<TextView>(R.id.tvPagado)
-                .text = "Pagado: S/ %.2f".format(pagado)
+                .text = "Pagado:                           S/ %.2f".format(pagado)
         }
 
-        viewModel.clienteSeleccionado.observe(viewLifecycleOwner) {
-            view.findViewById<TextView>(R.id.tvResumenCliente)
-                .text = "Cliente: ${it?.nameCliente ?: "-"}"
+        viewModel.clientes.observe(viewLifecycleOwner) { listaClientes ->
+            val nombres = listaClientes.map { it.nameCliente }
+            val adapterClientes = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                nombres
+            )
+
+            val autoComplete = view.findViewById<AutoCompleteTextView>(R.id.actClientes)
+            autoComplete.setAdapter(adapterClientes)
+
+            autoComplete.setOnItemClickListener { parent, _, position, _ ->
+                val clienteSeleccionado = parent.getItemAtPosition(position) as String
+                val cliente = listaClientes.find { it.nameCliente == clienteSeleccionado }
+                if (cliente != null) {
+                    viewModel.seleccionarCliente(cliente)
+                }
+            }
+
+            autoComplete.setOnEditorActionListener { textView, actionId, _ ->
+                val nombreInput = textView.text.toString().trim()
+                val cliente = listaClientes.find { it.nameCliente == nombreInput }
+                if (cliente != null) {
+                    viewModel.seleccionarCliente(cliente)
+                }
+                false
+            }
+
+            autoComplete.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) {
+                    val nombreInput = autoComplete.text.toString().trim()
+                    val cliente = listaClientes.find { it.nameCliente == nombreInput }
+                    if (cliente != null) {
+                        viewModel.seleccionarCliente(cliente)
+                    }
+                }
+            }
         }
 
         viewModel.guardadoExitoso.observe(viewLifecycleOwner) {
             if (it == true) {
-                context?.let {
-                    Toast.makeText(it, "Paquete guardado correctamente"
-                        , Toast.LENGTH_LONG).show()
-                }
-
+                Toast.makeText(
+                    requireContext(),
+                    "Paquete guardado correctamente",
+                    Toast.LENGTH_LONG
+                ).show()
+                limpiarCamposUI(view)
+                viewModel.limpiarEventoGuardado()
             }
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
             it?.let {
-                Toast.makeText(requireContext(),
-                    it,
-                    Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
             }
         }
 
-        viewModel.loading.observe(viewLifecycleOwner) {
-            }
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            view.findViewById<MaterialButton>(R.id.btnGuardarPaquete)
+                .isEnabled = !isLoading
+        }
     }
 
     private fun setupListeners(view: View) {
@@ -116,24 +157,29 @@ class RegisterPrendaFragment : Fragment() {
 
         btnAgregar.setOnClickListener {
 
-            val precioText = view.findViewById<EditText>(R.id.etPrecio).text.toString()
-            val descripcion = view.findViewById<EditText>(R.id.etDescripcion).text.toString()
+            val precioText =
+                view.findViewById<EditText>(R.id.etPrecio).text.toString()
+            val descripcion =
+                view.findViewById<EditText>(R.id.etDescripcion).text.toString()
 
-            if (precioText.isEmpty() || descripcion.isEmpty()) return@setOnClickListener
+            if (precioText.isBlank() || descripcion.isBlank()) return@setOnClickListener
 
-            val precio = precioText.toDouble()
+            val precio = precioText.toDoubleOrNull() ?: return@setOnClickListener
 
-            val estadoPago = if (
-                view.findViewById<Chip>(R.id.chipPendiente).isChecked
-            ) Prenda.EstadoPago.pendiente
-            else Prenda.EstadoPago.pagado
+            val estadoPago =
+                if (view.findViewById<Chip>(R.id.chipPendiente).isChecked)
+                    Prenda.EstadoPago.pendiente
+                else
+                    Prenda.EstadoPago.pagado
 
-            val estadoPrenda = if (
-                view.findViewById<Chip>(R.id.chipBuenestado).isChecked
-            ) Prenda.EstadoPrenda.buenEstado
-            else if (view.findViewById<Chip>(R.id.chipLavanderia).isChecked
-                ) Prenda.EstadoPrenda.lavanderia
-            else    Prenda.EstadoPrenda.reparacion
+            val estadoPrenda = when {
+                view.findViewById<Chip>(R.id.chipBuenestado).isChecked ->
+                    Prenda.EstadoPrenda.buenEstado
+                view.findViewById<Chip>(R.id.chipLavanderia).isChecked ->
+                    Prenda.EstadoPrenda.lavanderia
+                else ->
+                    Prenda.EstadoPrenda.reparacion
+            }
 
             val prenda = Prenda(
                 idPrenda = UUID.randomUUID().toString(),
@@ -144,45 +190,24 @@ class RegisterPrendaFragment : Fragment() {
             )
 
             viewModel.agregarPrenda(prenda)
+
+            view.findViewById<EditText>(R.id.etPrecio).text.clear()
+            view.findViewById<EditText>(R.id.etDescripcion).text.clear()
         }
 
         btnGuardar.setOnClickListener {
+            val cliente = viewModel.clienteSeleccionado.value
+            if (cliente == null) {
+                Toast.makeText(requireContext(), "Selecciona un cliente válido", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             viewModel.guardarPaquete()
         }
     }
 
-    private fun cargarClientes(view: View) {
-
-        val db = FirebaseFirestore.getInstance()
-
-        db.collection("clientes")
-            .get()
-            .addOnSuccessListener { result ->
-
-                if (!isAdded) return@addOnSuccessListener
-
-                val listaClientes = result.toObjects(Cliente::class.java)
-                val nombresClientes = listaClientes.map { it.nameCliente }
-
-                context?.let { ctx ->
-
-                    val adapterClientes = ArrayAdapter(
-                        ctx,
-                        android.R.layout.simple_dropdown_item_1line,
-                        nombresClientes
-                    )
-
-                    val autoComplete =
-                        view.findViewById<AutoCompleteTextView>(R.id.actClientes)
-
-                    autoComplete.setAdapter(adapterClientes)
-
-                    autoComplete.setOnItemClickListener { _, _, position, _ ->
-                        val clienteSeleccionado = listaClientes[position]
-                        viewModel.seleccionarCliente(clienteSeleccionado)
-                    }
-                }
-            }
+    private fun limpiarCamposUI(view: View) {
+        view.findViewById<AutoCompleteTextView>(R.id.actClientes).text.clear()
+        view.findViewById<TextView>(R.id.tvNombreCliente).text = "Cliente: -"
     }
-
 }

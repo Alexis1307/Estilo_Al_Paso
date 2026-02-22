@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.estilo.estilo_al_paso.R
 import com.estilo.estilo_al_paso.data.model.Cliente
+import com.estilo.estilo_al_paso.data.model.Paquete
 
 class ClienteAdapter(
     private val onItemClick: ((Cliente) -> Unit)? = null
@@ -43,23 +44,29 @@ class ClienteAdapter(
         private val tvCiudad = itemView.findViewById<TextView>(R.id.ciudadCliente)
         private val tvEstado = itemView.findViewById<TextView>(R.id.estadoFinanciero)
 
-        fun bind(cliente: Cliente) {
+        fun obtenerEstadoFinanciero(cliente: Cliente): Pair<String, Int> {
+            val paquete = cliente.paqueteSeleccionado
 
+            return when {
+                paquete == null || paquete.estadoPaquete == Paquete.EstadoPaquete.enviado ->
+                    "SIN PRENDAS" to R.color.blue_iron
+
+                paquete.totalPendiente > 0.0 ->
+                    "PENDIENTE: S/ %.2f".format(paquete.totalPendiente) to R.color.red
+
+                else ->
+                    "PAGADO" to R.color.green
+            }
+        }
+
+        fun bind(cliente: Cliente) {
             tvNombre.text = cliente.nameCliente
             tvTelefono.text = cliente.telefonoCliente
             tvCiudad.text = " - ${cliente.ciudadCliente}"
 
-            if (cliente.deudaTotal <= 0.0) {
-                tvEstado.text = "PAGADO"
-                tvEstado.setTextColor(
-                    itemView.context.getColor(R.color.green)
-                )
-            } else {
-                tvEstado.text = "DEUDA: S/ %.2f".format(cliente.deudaTotal)
-                tvEstado.setTextColor(
-                    itemView.context.getColor(R.color.red)
-                )
-            }
+            val (estado, color) = obtenerEstadoFinanciero(cliente)
+            tvEstado.text = estado
+            tvEstado.setTextColor(itemView.context.getColor(color))
         }
     }
 }

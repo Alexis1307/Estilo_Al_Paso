@@ -1,27 +1,26 @@
 package com.estilo.estilo_al_paso.ui.cliente
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.estilo.estilo_al_paso.R
-import com.estilo.estilo_al_paso.data.repository.ClienteRepository
 import com.google.android.material.textfield.TextInputLayout
 
 class RegistrarClienteActivity : AppCompatActivity() {
 
-    private lateinit var repository: ClienteRepository
+    private lateinit var viewModel: ClienteViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registrar_nuevo_cliente)
 
-        repository = ClienteRepository()
+        viewModel = ViewModelProvider(this)[ClienteViewModel::class.java]
 
-        // Campos del formulario
         val nombre = findViewById<TextInputLayout>(R.id.rgsNombreCli)
         val dni = findViewById<TextInputLayout>(R.id.rgsDniCli)
         val telefono = findViewById<TextInputLayout>(R.id.rgsTelefCli)
@@ -34,22 +33,28 @@ class RegistrarClienteActivity : AppCompatActivity() {
 
         val btnRegistrar = findViewById<Button>(R.id.btnRegistrarCliente)
 
+        viewModel.clienteCreado.observe(this) {
+            Toast.makeText(this, "Cliente registrado correctamente", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+
+        viewModel.error.observe(this) {
+            Toast.makeText(this, it ?: "Error al registrar", Toast.LENGTH_LONG).show()
+        }
+
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == R.id.radioOtro) {
-                ciudadOtroLayout.visibility = android.view.View.VISIBLE
-            } else {
-                ciudadOtroLayout.visibility = android.view.View.GONE
-            }
+            ciudadOtroLayout.visibility =
+                if (checkedId == R.id.radioOtro) View.VISIBLE else View.GONE
         }
 
         btnRegistrar.setOnClickListener {
-            val nombreTexto = nombre.editText?.text.toString().trim()
-            val dniTextoRaw = dni.editText?.text.toString().trim()
-            val telefonoTextoRaw = telefono.editText?.text.toString().trim()
-            val direccionTexto = direccion.editText?.text.toString().trim()
 
-            val dniTexto = dniTextoRaw.filter { it.isDigit() }
-            val telefonoTexto = telefonoTextoRaw.replace("+51", "").filter { it.isDigit() }
+            val nombreTexto = nombre.editText?.text.toString().trim()
+            val dniTexto = dni.editText?.text.toString().trim().filter { it.isDigit() }
+            val telefonoTexto = telefono.editText?.text.toString()
+                .replace("+51", "")
+                .filter { it.isDigit() }
+            val direccionTexto = direccion.editText?.text.toString().trim()
 
             nombre.error = null
             dni.error = null
@@ -86,27 +91,13 @@ class RegistrarClienteActivity : AppCompatActivity() {
 
             if (!esValido) return@setOnClickListener
 
-            val tipoEnvio = if (ciudadTexto.equals("Trujillo", ignoreCase = true)) {
-                "delivery"
-            } else {
-                "encomienda"
-            }
-
-            repository.crearCliente(
+            viewModel.crearCliente(
                 name = nombreTexto,
                 dni = dniTexto,
                 direccion = direccionTexto,
                 ciudad = ciudadTexto,
                 telefono = telefonoTexto
             )
-
-            Toast.makeText(
-                this,
-                "Cliente registrado correctamente. Tipo de envío: $tipoEnvio",
-                Toast.LENGTH_SHORT
-            ).show()
-
-            finish()
         }
     }
 }

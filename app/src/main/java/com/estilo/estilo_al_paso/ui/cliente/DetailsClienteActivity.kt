@@ -9,37 +9,38 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.estilo.estilo_al_paso.R
+import com.estilo.estilo_al_paso.data.model.Prenda
 import com.estilo.estilo_al_paso.ui.prenda.PrendaAdapter
 
 class DetailsClienteActivity : AppCompatActivity() {
 
     private lateinit var viewModel: DetailsClienteViewModel
     private var clienteId: String? = null
-
     private lateinit var prendaAdapter: PrendaAdapter
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details_client)
 
         clienteId = intent.getStringExtra("idCliente")
-
         viewModel = ViewModelProvider(this)[DetailsClienteViewModel::class.java]
 
         val recycler = findViewById<RecyclerView>(R.id.rvPrendas)
 
-        prendaAdapter = PrendaAdapter {
-        }
-
+        prendaAdapter = PrendaAdapter {}
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = prendaAdapter
 
+        val btnMarcarPagado = findViewById<Button>(R.id.btnMarcarPagado)
+        btnMarcarPagado.setOnClickListener {
+            val cliente = viewModel.cliente.value ?: return@setOnClickListener
+            val paquete = viewModel.paqueteSeleccionado.value
 
-        clienteId?.let {
-            viewModel.cargarDetalleCliente(it)
-            viewModel.cargarPaqueteActivo(it)
+            if (paquete != null) {
+                viewModel.marcarTodoComoPagado()
+            } else {
+                Toast.makeText(this, "No hay paquete disponible para marcar", Toast.LENGTH_SHORT).show()
+            }
         }
 
         findViewById<Button>(R.id.btnConfirmarEnvio).setOnClickListener {
@@ -47,9 +48,7 @@ class DetailsClienteActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btnHistorial).setOnClickListener {
-            clienteId?.let {
-                viewModel.cargarHistorial(it)
-            }
+            clienteId?.let { viewModel.cargarHistorial(it) }
         }
 
         viewModel.cliente.observe(this) { cliente ->
@@ -58,47 +57,47 @@ class DetailsClienteActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.dtlTelefonoCliente).text = cliente.telefonoCliente
             findViewById<TextView>(R.id.dtlCiudadCliente).text = cliente.ciudadCliente
             findViewById<TextView>(R.id.dtlDireccionCliente).text = cliente.direccionCliente
-
         }
 
-        viewModel.totalPrendas.observe(this) {
-            findViewById<TextView>(R.id.tvTotalPrendas).text = it.toString()
+        viewModel.prendas.observe(this) { lista ->
+            prendaAdapter.submitList(lista.toList())
+            _updateTotals(lista)
         }
 
         viewModel.totalPagado.observe(this) {
-            findViewById<TextView>(R.id.tvTotalPagado)
-                .text = "S/ %.2f".format(it)
+            findViewById<TextView>(R.id.tvTotalPagado).text = "S/ %.2f".format(it)
         }
 
         viewModel.totalDeuda.observe(this) {
-            findViewById<TextView>(R.id.tvTotalDeuda)
-                .text = "S/ %.2f".format(it)
+            findViewById<TextView>(R.id.tvTotalDeuda).text = "S/ %.2f".format(it)
         }
-
-        viewModel.prendas.observe(this) { lista ->
-            prendaAdapter.submitList(lista)
-        }
-
-        viewModel.prendas.observe(this) { lista ->
-            println("PRENDAS CARGADAS: ${lista.size}")
-            prendaAdapter.submitList(lista)
-        }
-
 
         viewModel.historial.observe(this) { lista ->
-
-            Toast.makeText(
-                this,
-                "Tiene ${lista.size} paquetes en historial",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this, "Tiene ${lista.size} paquetes en historial", Toast.LENGTH_SHORT).show()
         }
 
         viewModel.envioConfirmado.observe(this) { confirmado ->
             if (confirmado) {
                 Toast.makeText(this, "Envío confirmado", Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
 
+        viewModel.loading.observe(this) { isLoading ->
+            btnMarcarPagado.isEnabled = !isLoading
+        }
+
+        // Cargar detalles al inicio
+        clienteId?.let { viewModel.cargarDetalleCliente(it) }
+    }
+
+    private fun _updateTotals(prendas: List<Prenda>) {
+        val totalPagado = prendas.sumOf { if (it.estadoPago == Prenda.EstadoPago.pagado) it.precioPrenda else 0.0 }
+        val totalDeuda = prendas.sumOf { if (it.estadoPago == Prenda.EstadoPago.pendiente) it.precioPrenda else 0.0 }
+        val totalPrendas = prendas.size
+
+        findViewById<TextView>(R.id.tvTotalPrendas).text = totalPrendas.toString()
+        findViewById<TextView>(R.id.tvTotalPagado).text = "S/ %.2f".format(totalPagado)
+        findViewById<TextView>(R.id.tvTotalDeuda).text = "S/ %.2f".format(totalDeuda)
     }
 }

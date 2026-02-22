@@ -18,11 +18,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import androidx.core.widget.addTextChangedListener
 import com.estilo.estilo_al_paso.ui.cliente.DetailsClienteActivity
+import com.estilo.estilo_al_paso.ui.cliente.DetailsClienteViewModel
 
 
 class ClientesFragment : Fragment() {
 
     private val viewModel: ClienteViewModel by viewModels()
+    private val detailsViewModel: DetailsClienteViewModel by viewModels()
+
     private lateinit var adapter: ClienteAdapter
 
     override fun onCreateView(
@@ -42,7 +45,16 @@ class ClientesFragment : Fragment() {
         configurarBotones(view)
         observarClientes()
 
-        viewModel.cargarClientes()
+        detailsViewModel.actualizarClientes.observe(viewLifecycleOwner) {
+            viewModel.cargarClientes()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (adapter.itemCount == 0) {
+            viewModel.cargarClientes()
+        }
     }
 
     private fun configurarRecyclerView(view: View) {
@@ -89,6 +101,7 @@ class ClientesFragment : Fragment() {
 
         val btnPendientes = view.findViewById<Button>(R.id.btnPendiente)
         val btnPagados = view.findViewById<Button>(R.id.btnPagado)
+        val btnSinPrendas = view.findViewById<Button>(R.id.btnSinPrendas)
         val btnTodos = view.findViewById<Button>(R.id.btnTodos)
 
         btnPendientes.setOnClickListener {
@@ -99,11 +112,12 @@ class ClientesFragment : Fragment() {
             viewModel.filtrarPagados()
         }
 
+        btnSinPrendas.setOnClickListener {
+            viewModel.filtrarSinPrendas()
+        }
+
         btnTodos.setOnClickListener {
             viewModel.limpiarFiltroEstado()
         }
     }
-
-
-
 }

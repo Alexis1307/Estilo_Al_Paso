@@ -14,104 +14,149 @@ class DetailsClienteViewModel : ViewModel() {
     private val clienteRepository = ClienteRepository()
     private val paqueteRepository = PaqueteRepository()
 
+    private val _historial = MutableLiveData<List<Paquete>>()
+    val historial: LiveData<List<Paquete>> = _historial
+
     private val _cliente = MutableLiveData<Cliente>()
     val cliente: LiveData<Cliente> = _cliente
 
-    private val _paqueteActivo = MutableLiveData<Paquete?>()
-    val paqueteActivo: LiveData<Paquete?> = _paqueteActivo
+    private val _paqueteSeleccionado = MutableLiveData<Paquete?>()
+    val paqueteSeleccionado: LiveData<Paquete?> = _paqueteSeleccionado
 
     private val _prendas = MutableLiveData<List<Prenda>>()
     val prendas: LiveData<List<Prenda>> = _prendas
 
-    private val _envioConfirmado = MutableLiveData<Boolean>()
-    val envioConfirmado: LiveData<Boolean> = _envioConfirmado
-
-    private val _historial = MutableLiveData<List<Paquete>>()
-    val historial: LiveData<List<Paquete>> = _historial
-
-    private val _totalPrendas = MutableLiveData<Int>()
+    private val _totalPrendas = MutableLiveData(0)
     val totalPrendas: LiveData<Int> = _totalPrendas
 
-    private val _totalPagado = MutableLiveData<Double>()
+    private val _totalPagado = MutableLiveData(0.0)
     val totalPagado: LiveData<Double> = _totalPagado
 
-    private val _totalDeuda = MutableLiveData<Double>()
+    private val _totalDeuda = MutableLiveData(0.0)
     val totalDeuda: LiveData<Double> = _totalDeuda
 
+    private val _loading = MutableLiveData(false)
+    val loading: LiveData<Boolean> = _loading
 
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?> = _error
 
-    fun cargarDetalleCliente(idCliente: String) {
-        clienteRepository.obtenerClientePorId(
-            idCliente,
-            onSuccess = { it?.let { _cliente.value = it } },
-            onError = {}
-        )
-    }
+    private val _envioConfirmado = MutableLiveData(false)
+    val envioConfirmado: LiveData<Boolean> = _envioConfirmado
 
-    fun cargarPaqueteActivo(idCliente: String) {
+    private val _actualizarClientes = MutableLiveData<Unit>()
+    val actualizarClientes: LiveData<Unit> = _actualizarClientes
 
-        paqueteRepository.obtenerPaqueteActivo(
-            idCliente,
-            onResult = { paquete ->
+    fun cargarDetalleCliente(clienteId: String) {
+        clienteRepository.obtenerClientePorId(clienteId,
+            onSuccess = { cliente ->
+                if (cliente == null) {
+                    _error.value = "Cliente no encontrado"
+                    return@obtenerClientePorId
+                }
 
-                _paqueteActivo.value = paquete
+                _cliente.value = cliente
 
-                paquete?.let {
-                    cargarPrendas(it.idPaquete)
+                val paqueteActivoId = cliente.paqueteActivoId
+
+                if (!paqueteActivoId.isNullOrEmpty()) {
+                    cargarPaquete(cliente.idCliente, paqueteActivoId)
+                } else {
+                    _paqueteSeleccionado.value = null
+                    _prendas.value = emptyList()
+                    _totalPrendas.value = 0
+                    _totalPagado.value = 0.0
+                    _totalDeuda.value = 0.0
                 }
             },
-            onError = {}
+            onError = { _error.value = "No se pudo cargar el cliente" }
         )
     }
 
-    private fun cargarPrendas(idPaquete: String) {
+    private fun cargarPaquete(
+        clienteId: String,
+        paqueteId: String,
+        onPaqueteCargado: (Paquete?) -> Unit = {}
+    ) {
+        paqueteRepository.obtenerPaquetePorId(clienteId, paqueteId,
+            onResult = { paquete ->
+                _paqueteSeleccionado.value = paquete
+                cargarPrendas(paquete)
+                onPaqueteCargado(paquete)
+            },
+            onError = {
+                _error.value = "No se pudo cargar el paquete"
+                onPaqueteCargado(null)
+            }
+        )
+    }
+
+    private fun cargarPrendas(paquete: Paquete?) {
+        if (paquete == null) {
+            _prendas.value = emptyList()
+            _totalPrendas.value = 0
+            _totalDeuda.value = 0.0
+            _totalPagado.value = 0.0
+            return
+        }
 
         paqueteRepository.obtenerPrendasPorPaquete(
-            idPaquete,
+            _cliente.value!!.idCliente,
+            paquete.idPaquete,
             onResult = { lista ->
-
                 _prendas.value = lista
-
                 _totalPrendas.value = lista.size
+                _totalDeuda.value = lista.sumOf { if (it.estadoPago == Prenda.EstadoPago.pendiente) it.precioPrenda else 0.0 }
+                _totalPagado.value = lista.sumOf { if (it.estadoPago == Prenda.EstadoPago.pagado) it.precioPrenda else 0.0 }
+            },
+            onError = { _error.value = "No se pudieron cargar las prendas" }
+        )
+    }
 
-                val pagado = lista
-                    .filter { it.estadoPago == Prenda.EstadoPago.pagado }
-                    .sumOf { it.precioPrenda }
+    fun marcarTodoComoPagado() {
+        val cliente = _cliente.value ?: return
+        val paquete = _paqueteSeleccionado.value ?: return
 
-                val deuda = lista
-                    .filter { it.estadoPago == Prenda.EstadoPago.pendiente }
-                    .sumOf { it.precioPrenda }
+        _loading.value = true
+        paqueteRepository.marcarTodoComoPagado(cliente.idCliente, paquete.idPaquete,
+            onSuccess = {
+                // Recargar el paquete y las prendas
+                cargarPaquete(cliente.idCliente, paquete.idPaquete) { paqueteActualizado ->
+                    _paqueteSeleccionado.value = paqueteActualizado
+                    cliente.paqueteSeleccionado = paqueteActualizado
+                    cliente.paqueteActivoId = paqueteActualizado?.idPaquete
+                    _cliente.value = cliente
+                    _loading.value = false
 
-                _totalPagado.value = pagado
-                _totalDeuda.value = deuda
-            }, onError = {}
+                    _actualizarClientes.value = Unit
+                }
+            },
+            onError = {
+                _loading.value = false
+                _error.value = it.message
+            }
         )
     }
 
     fun confirmarEnvio() {
+        val cliente = _cliente.value ?: return
+        val paquete = _paqueteSeleccionado.value ?: return
 
-        val paquete = _paqueteActivo.value ?: return
-
-        if (_prendas.value.isNullOrEmpty()) return
-
-        paqueteRepository.confirmarEnvio(
-            paquete,
+        paqueteRepository.confirmarEnvioContraEntrega(cliente, paquete,
             onSuccess = {
                 _envioConfirmado.value = true
             },
-            onError = {}
+            onError = { _error.value = it.message }
         )
     }
 
     fun cargarHistorial(clienteId: String) {
-
         paqueteRepository.obtenerHistorialPaquetes(
             clienteId,
             onResult = { lista ->
                 _historial.value = lista
             },
-            onError = {}
+            onError = { _error.value = "No se pudo cargar el historial" }
         )
     }
-
 }

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="25dp">
 
         <ImageView
             android:id="@+id/btn_revert"
@@ -28,6 +28,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/white"
+            android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -140,7 +141,13 @@
             app:layout_constraintTop_toBottomOf="@id/etDescripcion"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
-        >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Estado de Pago:"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
@@ -169,6 +176,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Estado de la Prenda:"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
 
         <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
@@ -249,9 +262,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvResumenCliente"
+                    android:id="@+id/tvNombreCliente"
                     android:text="Cliente: -"
                     android:textSize="18sp"
+
                     android:layout_marginBottom="5dp"
                     android:textColor="@color/white"/>
 
