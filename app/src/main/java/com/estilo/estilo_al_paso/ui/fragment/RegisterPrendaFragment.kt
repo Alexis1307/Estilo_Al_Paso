@@ -1,5 +1,6 @@
 package com.estilo.estilo_al_paso.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.estilo.estilo_al_paso.R
 import com.estilo.estilo_al_paso.data.model.Prenda
+import com.estilo.estilo_al_paso.ui.cliente.RegistrarClienteActivity
 import com.estilo.estilo_al_paso.ui.prenda.PrendaAdapter
 import com.estilo.estilo_al_paso.ui.prenda.RegistrarPrendaViewModel
 import com.google.android.material.button.MaterialButton
@@ -152,8 +154,14 @@ class RegisterPrendaFragment : Fragment() {
 
     private fun setupListeners(view: View) {
 
+        val btnNuevoCliente = view.findViewById<MaterialButton>(R.id.btnNuevoCliente)
         val btnAgregar = view.findViewById<MaterialButton>(R.id.btnAgregarPrenda)
         val btnGuardar = view.findViewById<MaterialButton>(R.id.btnGuardarPaquete)
+
+        btnNuevoCliente.setOnClickListener {
+            val intent = Intent(requireContext(), RegistrarClienteActivity::class.java)
+            startActivity(intent)
+        }
 
         btnAgregar.setOnClickListener {
 

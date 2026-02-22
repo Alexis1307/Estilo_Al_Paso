@@ -34,6 +34,11 @@ class PrendaAdapter(
 
     override fun getItemCount(): Int = listaPrendas.size
 
+    fun Long.toFechaLegible(): String {
+        val sdf = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+        return sdf.format(java.util.Date(this))
+    }
+
     inner class PrendaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val tvDescripcion: TextView =
@@ -51,6 +56,9 @@ class PrendaAdapter(
         private val btnEliminar: ImageButton =
             itemView.findViewById(R.id.btnEliminarPrenda)
 
+        private val tvFechaCreacion: TextView =
+            itemView.findViewById(R.id.tvFechaCreacion)
+
         fun bind(prenda: Prenda) {
 
             tvDescripcion.text = prenda.descripcionPrenda
@@ -58,6 +66,8 @@ class PrendaAdapter(
 
             tvEstadoPago.text = prenda.estadoPago.name.uppercase()
             tvEstadoPrenda.text = prenda.estadoPrenda.name.uppercase()
+
+            tvFechaCreacion.text = prenda.fechaRegistro.toFechaLegible()
 
             if (prenda.estadoPago == Prenda.EstadoPago.pendiente) {
                 tvPrecio.setTextColor(Color.parseColor("#E57373"))

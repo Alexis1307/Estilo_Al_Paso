@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity"/>
-        <activity android:name="com.estilo.estilo_al_paso.MainActivity"/>
+        <activity android:name=".MainActivity" android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".RegisterUsuarioActivity"/>
         <activity android:name=".ui.cliente.RegistrarClienteActivity"
             android:exported="false"/>
         <activity

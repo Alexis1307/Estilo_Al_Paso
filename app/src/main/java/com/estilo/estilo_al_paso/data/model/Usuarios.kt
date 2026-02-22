@@ -5,6 +5,6 @@ data class Usuarios (
     val nameUser : String = "",
     val passwordUser : String = "",
     val rolUser : String = "",
-    val estadoUser : String = "activo", //activo o eliminado
+    val estadoUser : String = "activo",
     val fechaCreacion : Long = System.currentTimeMillis(),
 )

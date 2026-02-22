@@ -18,6 +18,8 @@ class PaqueteRepository {
             .document(paqueteId)
             .collection("prendas")
 
+    private val estadisticasRepository = EstadisticasRepository()
+
     private val statsRef =
         FirebaseFirestore.getInstance()
             .collection("estadisticas_global")
@@ -284,6 +286,11 @@ class PaqueteRepository {
                     if (totalPendienteReal <= 0.0) {
                         throw Exception("No hay prendas pendientes")
                     }
+
+                    estadisticasRepository.moverPendienteAVendido(
+                        transaction,
+                        totalPendienteReal
+                    )
 
                     transaction.update(
                         paqueteDoc,

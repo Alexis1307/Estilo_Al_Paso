@@ -6,15 +6,25 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 
-class ScrashActivity : AppCompatActivity(){
+class ScrashActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spresh)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, LoginActivity::class.java)
+
+            val sessionManager = SessionManager(this)
+
+            val intent = if (sessionManager.isLoggedIn()) {
+                Intent(this, MainActivity::class.java)
+            } else {
+                Intent(this, LoginActivity::class.java)
+            }
+
             startActivity(intent)
             finish()
-        }, 3000)
+
+        }, 2000)
     }
 }

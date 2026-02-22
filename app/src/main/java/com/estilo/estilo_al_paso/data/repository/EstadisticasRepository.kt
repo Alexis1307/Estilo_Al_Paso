@@ -6,6 +6,7 @@ import com.estilo.estilo_al_paso.data.model.Prenda
 import com.estilo.estilo_al_paso.data.remote.FirebaseService
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Transaction
 
 class EstadisticasRepository {
     private val db = FirebaseFirestore.getInstance()
@@ -28,6 +29,7 @@ class EstadisticasRepository {
             val stats = snapshot.toObject(EstadisticasGenerales::class.java)
                 ?: EstadisticasGenerales()
 
+
             val totalPrendasVendidas =
                 stats.totalPrendasVendidas + prendas.size
 
@@ -49,5 +51,24 @@ class EstadisticasRepository {
 
             null
         }
+    }
+
+    fun moverPendienteAVendido(
+        transaction: Transaction,
+        monto: Double
+    ) {
+        if (monto <= 0) return
+
+        transaction.update(
+            statsRef,
+            "montoTotalVendido",
+            FieldValue.increment(monto)
+        )
+
+        transaction.update(
+            statsRef,
+            "montoTotalPendiente",
+            FieldValue.increment(-monto)
+        )
     }
 }

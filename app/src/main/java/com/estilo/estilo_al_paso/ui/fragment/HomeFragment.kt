@@ -1,22 +1,26 @@
 package com.estilo.estilo_al_paso.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.estilo.estilo_al_paso.R
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.estilo.estilo_al_paso.LoginActivity
+import com.estilo.estilo_al_paso.SessionManager
 import com.estilo.estilo_al_paso.ui.home.EstadisticasViewModel
 
 class HomeFragment : Fragment() {
     private lateinit var viewModel: EstadisticasViewModel
-
     private lateinit var tvPaquetesActivos: TextView
     private lateinit var tvPrendasVendidas: TextView
     private lateinit var tvMontoTotal: TextView
     private lateinit var tvMontoPendiente: TextView
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +47,17 @@ class HomeFragment : Fragment() {
             tvPrendasVendidas.text = stats.totalPrendasVendidas.toString()
             tvMontoTotal.text = "S/ ${stats.montoTotalVendido}"
             tvMontoPendiente.text = "S/ ${stats.montoTotalPendiente}"
+        }
+
+        val btnLogout = view.findViewById<ImageView>(R.id.btnLogout)
+
+        btnLogout.setOnClickListener {
+            val sessionManager = SessionManager(requireContext())
+            sessionManager.cerrarSesion()
+
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
     }
 }

@@ -45,8 +45,6 @@ class LoginActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.loginProgress)
 
         findViewById<Button>(R.id.btnIngresar).setOnClickListener { intentarLogin() }
-
-        crearAdminInicial()
     }
 
     private fun intentarLogin() {
@@ -116,34 +114,6 @@ class LoginActivity : AppCompatActivity() {
                     "Error: ${e.message}",
                     Toast.LENGTH_LONG
                 ).show()
-            }
-        }
-    }
-
-    private fun crearAdminInicial() {
-        lifecycleScope.launch {
-            try {
-                val docs = withContext(Dispatchers.IO) {
-                    db.collection("usuarios")
-                        .whereEqualTo("nameUser", "admin")
-                        .get()
-                        .await()
-                }
-                if (docs.isEmpty) {
-                    val hashPassword = withContext(Dispatchers.IO) {
-                        BCryptHelper.hashPassword("admin123")
-                    }
-                    val admin = Usuarios(
-                        nameUser = "admin",
-                        passwordUser = hashPassword,
-                        rolUser = SessionManager.ROL_ADMIN,
-                        estadoUser = "activo"
-                    )
-                    withContext(Dispatchers.IO) {
-                        db.collection("usuarios").add(admin).await()
-                    }
-                }
-            } catch (e: Exception) {
             }
         }
     }
